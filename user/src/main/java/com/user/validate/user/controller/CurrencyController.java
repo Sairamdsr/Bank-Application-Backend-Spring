@@ -1,5 +1,6 @@
 package com.user.validate.user.controller;
 
+import com.user.validate.user.exception.CurrencyDetailsNotFoundException;
 import com.user.validate.user.model.Currency;
 import com.user.validate.user.service.CurrencyService;
 import com.user.validate.user.service.Status;
@@ -17,7 +18,7 @@ public class CurrencyController {
 
     @CrossOrigin("http://localhost:4200/")
     @GetMapping("/currencyDetails/{currencyCode}")
-    public Currency currency(@PathVariable("currencyCode") String currencyCode) {
+    public Currency currency(@PathVariable("currencyCode") String currencyCode) throws CurrencyDetailsNotFoundException {
 
         return currencyService.getCurrencyDetails(currencyCode);
     }

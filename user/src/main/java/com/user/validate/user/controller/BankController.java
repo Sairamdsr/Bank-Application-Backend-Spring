@@ -1,5 +1,6 @@
 package com.user.validate.user.controller;
 
+import com.user.validate.user.exception.BankDetailsNotFoundException;
 import com.user.validate.user.model.Banks;
 import com.user.validate.user.service.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class BankController {
 
     @Autowired
-    BankService receiverService;
+    BankService bankService;
 
     @CrossOrigin("http://localhost:4200/")
     @GetMapping("/getBankDetails/{BIC}")
-    public Banks getBankDetails(@PathVariable("BIC") String BIC) {
+    public Banks getBankDetails(@PathVariable("BIC") String BIC) throws BankDetailsNotFoundException {
 
-        try {
-            return receiverService.fetchBankDetails(BIC);
-        } catch (Exception e) {
-            return null;
-        }
+        return bankService.fetchBankDetails(BIC);
 
     }
 

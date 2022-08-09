@@ -1,5 +1,7 @@
 package com.user.validate.user.controller;
 
+import com.user.validate.user.exception.CurrencyDetailsNotFoundException;
+import com.user.validate.user.exception.CustomerDetailsNotFoundException;
 import com.user.validate.user.model.Customers;
 import com.user.validate.user.service.CustomerService;
 import com.user.validate.user.service.Status;
@@ -11,25 +13,20 @@ import org.springframework.web.bind.annotation.*;
 public class CustomerController {
 
     @Autowired
-    CustomerService userService;
+    CustomerService customerService;
 
     @CrossOrigin("http://localhost:4200/")
-    @GetMapping("/getSenderData/{customerId}")
-    public Customers getCustomerData(@PathVariable("customerId") String customerId) throws Exception {
+    @GetMapping("/getCustomerData/{customerId}")
+    public Customers getCustomerData(@PathVariable("customerId") String customerId) throws CustomerDetailsNotFoundException {
 
-        try {
-            return userService.fetchCustomerDetails(customerId);
-        } catch (Exception e) {
-            System.out.println("");
-        }
+        return customerService.fetchCustomerDetails(customerId);
 
-        return null;
     }
 
     @CrossOrigin("http://localhost:4200/")
     @GetMapping("/updateBalance/{customerId}/{amount}/{currencyCode}")
-    public Status updateBalance(@PathVariable("customerId") String customerId, @PathVariable("amount") float amount, @PathVariable("currencyCode") String currencyCode) {
+    public Status updateBalance(@PathVariable("customerId") String customerId, @PathVariable("amount") float amount, @PathVariable("currencyCode") String currencyCode) throws CurrencyDetailsNotFoundException, CustomerDetailsNotFoundException {
 
-        return userService.updateBalance(customerId, amount, currencyCode);
+        return customerService.updateBalance(customerId, amount, currencyCode);
     }
 }
