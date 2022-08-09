@@ -1,15 +1,15 @@
 package com.user.validate.user.service;
 
 import com.user.validate.user.model.Banks;
-import com.user.validate.user.repository.ReceiverRepository;
+import com.user.validate.user.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ReceiverService {
+public class BankService {
 
     @Autowired
-    ReceiverRepository receiverRepository;
+    BankRepository receiverRepository;
 
     public Banks fetchBankDetails(String BIC) {
 
