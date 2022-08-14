@@ -1,103 +1,101 @@
 package com.user.validate.user.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 public class Transaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transactionId;
     @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customers customerId;
+    @JoinColumn(name = "customer")
+    private Customers customer;
     @ManyToOne
-    @JoinColumn(name = "currency_code")
-    private Currency currencyCode;
+    @JoinColumn(name = "currency")
+    private Currency currency;
+//    @ManyToOne
+//    @JoinColumn(name = "sender_bic")
+//    private Banks senderBIC;
     @ManyToOne
-    @JoinColumn(name = "sender_bic")
-    private Banks senderBIC;
-    @ManyToOne
-    @JoinColumn(name = "receiver_bic")
-    private Banks receiverBIC;
+    @JoinColumn(name = "bank")
+    private Banks bank;
     private String receiverAccountHolderNumber;
     private String receiverAccountHolderName;
     @ManyToOne
-    @JoinColumn(name = "transfer_type_code")
-    private TransferType transferTypeCode;
+    @JoinColumn(name = "transfer_type")
+    private TransferType transferType;
     @ManyToOne
-    @JoinColumn(name = "message_code")
-    private MessageCode messageCode;
-    private float currencyAmount;
+    @JoinColumn(name = "message")
+    private MessageCode message;
+//    private float currencyAmount;
     private float transferFees;
     private float inrAmount;
     private String transferDate;
 
-    public MessageCode getMessageCode() {
-        return messageCode;
+    public MessageCode getMessage() {
+        return message;
     }
 
-    public void setMessageCode(MessageCode messageCode) {
-        this.messageCode = messageCode;
+    public void setMessage(MessageCode message) {
+        this.message = message;
     }
 
-    public TransferType getTransferTypeCode() {
-        return transferTypeCode;
+    public TransferType getTransferType() {
+        return transferType;
     }
 
-    public void setTransferTypeCode(TransferType transferTypeCode) {
-        this.transferTypeCode = transferTypeCode;
+    public void setTransferType(TransferType transferType) {
+        this.transferType = transferType;
     }
 
-    public Banks getReceiverBIC() {
-        return receiverBIC;
+    public Banks getReceiverBank() {
+        return bank;
     }
 
-    public void setReceiverBIC(Banks receiverBIC) {
-        this.receiverBIC = receiverBIC;
+    public void setReceiverBank(Banks bank) {
+        this.bank = bank;
     }
 
-    public Banks getSenderBIC() {
-        return senderBIC;
+//    public Banks getSenderBIC() {
+//        return senderBIC;
+//    }
+
+//    public void setSenderBIC(Banks senderBIC) {
+//        this.senderBIC = senderBIC;
+//    }
+
+    public Currency getCurrency() {
+        return currency;
     }
 
-    public void setSenderBIC(Banks senderBIC) {
-        this.senderBIC = senderBIC;
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
-    public Currency getCurrencyCode() {
-        return currencyCode;
+    public Customers getCustomer() {
+        return customer;
     }
 
-    public void setCurrencyCode(Currency currencyCode) {
-        this.currencyCode = currencyCode;
-    }
-
-    public Customers getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Customers customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customers customer) {
+        this.customer = customer;
     }
 
     public Transaction() {
         super();
     }
 
-    public Transaction(int transactionId, Customers customerId, Currency currencyCode, Banks senderBIC, Banks receiverBIC, String receiverAccountHolderNumber, String receiverAccountHolderName, TransferType transferTypeCode, MessageCode messageCode, float currencyAmount, float transferFees, float inrAmount, String transferDate) {
+    public Transaction(int transactionId, Customers customer, Currency currency, Banks bank, String receiverAccountHolderNumber, String receiverAccountHolderName, TransferType transferType, MessageCode message, float transferFees, float inrAmount, String transferDate) {
         this.transactionId = transactionId;
-        this.customerId = customerId;
-        this.currencyCode = currencyCode;
-        this.senderBIC = senderBIC;
-        this.receiverBIC = receiverBIC;
+        this.customer = customer;
+        this.currency = currency;
+//        this.senderBIC = senderBIC;
+        this.bank = bank;
         this.receiverAccountHolderNumber = receiverAccountHolderNumber;
         this.receiverAccountHolderName = receiverAccountHolderName;
-        this.transferTypeCode = transferTypeCode;
-        this.messageCode = messageCode;
-        this.currencyAmount = currencyAmount;
+        this.transferType = transferType;
+        this.message = message;
+//        this.currencyAmount = currencyAmount;
         this.transferFees = transferFees;
         this.inrAmount = inrAmount;
         this.transferDate = transferDate;
@@ -127,13 +125,13 @@ public class Transaction {
         this.receiverAccountHolderName = receiverAccountHolderName;
     }
 
-    public float getCurrencyAmount() {
-        return currencyAmount;
-    }
+//    public float getCurrencyAmount() {
+//        return currencyAmount;
+//    }
 
-    public void setCurrencyAmount(float currencyAmount) {
-        this.currencyAmount = currencyAmount;
-    }
+//    public void setCurrencyAmount(float currencyAmount) {
+//        this.currencyAmount = currencyAmount;
+//    }
 
     public float getTransferFees() {
         return transferFees;

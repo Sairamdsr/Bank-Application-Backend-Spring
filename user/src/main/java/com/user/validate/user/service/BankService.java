@@ -1,6 +1,6 @@
 package com.user.validate.user.service;
 
-import com.user.validate.user.exception.BankDetailsNotFoundException;
+import com.user.validate.user.exception.BankBICNotFoundException;
 import com.user.validate.user.model.Banks;
 import com.user.validate.user.repository.BankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +14,11 @@ public class BankService {
     @Autowired
     BankRepository receiverRepository;
 
-    public Banks fetchBankDetails(String BIC) throws BankDetailsNotFoundException {
+    public Banks fetchBankDetails(String BIC) throws BankBICNotFoundException {
 
         Optional<Banks> bank = receiverRepository.findById(BIC);
 
-        if (bank.isEmpty()) throw new BankDetailsNotFoundException("Bank Details Not Found");
+        if (bank.isEmpty()) throw new BankBICNotFoundException("Invalid Bank BIC");
         else return bank.get();
 
     }

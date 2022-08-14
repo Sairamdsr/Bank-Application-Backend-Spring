@@ -1,8 +1,6 @@
 package com.user.validate.user.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Customers {
@@ -35,6 +33,10 @@ public class Customers {
         this.customerAddress = customerAddress;
         this.customerCity = customerCity;
         this.customerType = customerType;
+    }
+
+    public Customers(String customerId) {
+
     }
 
     public String getCustomerId() {
