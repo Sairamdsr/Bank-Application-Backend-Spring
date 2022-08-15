@@ -6,6 +6,7 @@ import com.user.validate.user.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Currency;
 import java.util.Optional;
 
 //import java.util.List;
@@ -51,21 +52,30 @@ public class TransactionService {
 
     }
 
-    public Status setTransactionDetails(Transaction transaction) {
+    public Transaction setTransactionDetails(Transaction transaction) {
 
 //        TransferType transferType = transaction.getTransferTypeCode();
 //        System.out.println(transferType.getTransferTypeCode())
 
         try {
 
+            float conversionRate = currencyService.getConversionRate(transaction.getCurrency().getCurrencyCode());
+            float amount = transaction.getInrAmount();
+            double tax = (amount * conversionRate) * 0.025;
+            double totalAmount = (amount * conversionRate) + tax;
+            float clearBalance = customerService.fetchCustomerDetails(transaction.getCustomer().getCustomerId()).getClearBalance();
+            double totalClearBalance = clearBalance - totalAmount;
+            transaction.getCustomer().setClearBalance((float)totalClearBalance);
+            customerService.updateBalance(transaction.getCustomer().getCustomerId(), (float)totalClearBalance);
+            transaction.getCustomer().setClearBalance((float) totalClearBalance);
             transactionRepository.save(transaction);
-            status.setMessage("Successfully Inserted");
-            return status;
+//            status.setMessage("Successfully Inserted");
+            return transactionRepository.findById(transaction.getTransactionId()).get();
 
         } catch (Exception e) {
 
             status.setMessage("Unsuccessful");
-            return status;
+            return null;
 
         }
 

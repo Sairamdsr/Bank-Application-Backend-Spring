@@ -24,6 +24,15 @@ public class CurrencyService {
 
     }
 
+    public float getConversionRate(String currencyCode) throws CurrencyCodeNotFoundException {
+
+        Optional<Currency> currency = currencyRepository.findById(currencyCode);
+
+        if (currency.isEmpty()) throw new CurrencyCodeNotFoundException("Invalid Currency Code");
+        else return currency.get().getConversionRate();
+
+    }
+
     public List<Currency> getAllCurrencyDetails() {
 
         return currencyRepository.findAll();

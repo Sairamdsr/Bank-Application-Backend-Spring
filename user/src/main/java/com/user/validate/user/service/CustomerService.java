@@ -53,22 +53,22 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public float updateBalance(String customerId, float amount) {
-
-//        try {
-            Customers customer = customerRepository.findById(customerId).get();
-//            if (Objects.equals(customer.getCustomerId(), customerId)) {
-                customer.setClearBalance(amount);
-                customerRepository.save(customer);
-//                status.setMessage("Success");
-//            }
-//        } catch (Exception e) {
-//            status.setMessage("Unsuccessfull");
-//            System.out.println(" ");
-//        }
-
-        return customer.getClearBalance();
-    }
+//    public float updateBalance(String customerId, float amount) {
+//
+////        try {
+//            Customers customer = customerRepository.findById(customerId).get();
+////            if (Objects.equals(customer.getCustomerId(), customerId)) {
+//                customer.setClearBalance(amount);
+//                customerRepository.save(customer);
+////                status.setMessage("Success");
+////            }
+////        } catch (Exception e) {
+////            status.setMessage("Unsuccessfull");
+////            System.out.println(" ");
+////        }
+//
+//        return customer.getClearBalance();
+//    }
 
     public float updateCurrencyCodeValue(Customers customer, String currencyCode, float amount) throws CurrencyCodeNotFoundException {
 
@@ -80,6 +80,14 @@ public class CustomerService {
         customerRepository.save(customer);
 
         return customer.getClearBalance();
+
+    }
+
+    public void updateBalance(String customerId, float clearBalance) {
+
+        Customers customer = customerRepository.findById(customerId).get();
+        customer.setClearBalance(clearBalance);
+        customerRepository.save(customer);
 
     }
 

@@ -30,10 +30,10 @@ public class TransactionController {
     }
 
     @PostMapping("/addTransactionDetails")
-    public ResponseEntity<Status> setTransactionDetails(@RequestBody Transaction transaction) throws Exception {
+    public ResponseEntity<Integer> setTransactionDetails(@RequestBody Transaction transaction) throws Exception {
 
-        Status status = transactionService.setTransactionDetails(transaction);
-        return new ResponseEntity<>(status, HttpStatus.CREATED);
+        Transaction transaction1 = transactionService.setTransactionDetails(transaction);
+        return new ResponseEntity<>(transaction1.getTransactionId(), HttpStatus.CREATED);
 
     }
 

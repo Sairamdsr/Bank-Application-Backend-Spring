@@ -37,4 +37,13 @@ public class CurrencyController {
 
     }
 
+    @CrossOrigin("http://localhost:4200/")
+    @GetMapping("conversionRate/{currencyCode}")
+    public ResponseEntity<Float> getConversionRate(@PathVariable("currencyCode") String currencyCode) throws CurrencyCodeNotFoundException {
+
+        float conversionRate = currencyService.getConversionRate(currencyCode);
+        return new ResponseEntity<>(conversionRate, HttpStatus.OK);
+
+    }
+
 }
