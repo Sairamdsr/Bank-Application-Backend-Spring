@@ -5,11 +5,8 @@ import com.user.validate.user.model.Transaction;
 import com.user.validate.user.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Currency;
 import java.util.Optional;
 
-//import java.util.List;
 
 @Service
 public class TransactionService {
@@ -28,6 +25,8 @@ public class TransactionService {
 
     Status status = new Status();
 
+
+
 //    public Transaction setTransactionDetails(Transaction transaction) throws Exception {
 //
 //        Customers customer = customerService.fetchCustomerDetails(transaction.getCustomerId().getCustomerId());
@@ -44,6 +43,8 @@ public class TransactionService {
 //
 //    }
 
+
+
     public Transaction getTransactionDetails(int transactionId) throws InvalidTransactionIdException {
 
         Optional<Transaction> transaction = transactionRepository.findById(transactionId);
@@ -51,6 +52,7 @@ public class TransactionService {
         else return transaction.get();
 
     }
+
 
     public Transaction setTransactionDetails(Transaction transaction) {
 
@@ -62,6 +64,7 @@ public class TransactionService {
             float conversionRate = currencyService.getConversionRate(transaction.getCurrency().getCurrencyCode());
             float amount = transaction.getInrAmount();
             double tax = (amount * conversionRate) * 0.025;
+            transaction.setTransferFees((float)tax);
             double totalAmount = (amount * conversionRate) + tax;
             float clearBalance = customerService.fetchCustomerDetails(transaction.getCustomer().getCustomerId()).getClearBalance();
             double totalClearBalance = clearBalance - totalAmount;

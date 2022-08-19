@@ -18,7 +18,7 @@ public class MessageCodeController {
     @Autowired
     MessageCodeService messageCodeService;
 
-    @CrossOrigin("http://localhost/4200/")
+    @CrossOrigin("http://localhost:4200/")
     @GetMapping("messageCodeDetails/{messageCode}")
     public ResponseEntity<MessageCode> getMessageCodeDetails(@PathVariable("messageCode") String messageCode) throws InvalidMessageCodeException {
 

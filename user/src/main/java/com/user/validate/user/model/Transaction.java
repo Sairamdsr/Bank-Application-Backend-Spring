@@ -14,7 +14,7 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "currency")
     private Currency currency;
-//    @ManyToOne
+    //    @ManyToOne
 //    @JoinColumn(name = "sender_bic")
 //    private Banks senderBIC;
     @ManyToOne
@@ -28,7 +28,7 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "message")
     private MessageCode message;
-//    private float currencyAmount;
+    //    private float currencyAmount;
     private float transferFees;
     private float inrAmount;
     private String transferDate;
@@ -156,5 +156,5 @@ public class Transaction {
     public void setTransferDate(String transferDate) {
         this.transferDate = transferDate;
     }
-}
 
+}

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -20,7 +19,8 @@ public class CustomerService {
 
     @Autowired
     CurrencyService currencyService;
-//    private final Status status = new Status();
+
+    private Status status = new Status();
 
     public Customers fetchCustomerDetails(String id) throws CustomerIdNotFoundException {
 
@@ -31,27 +31,69 @@ public class CustomerService {
 
     }
 
-//    public Status updateBalance(String id, float amount, String currencyCode) throws CurrencyCodeNotFoundException, CustomerIdNotFoundException {
-//
-//        Optional<Customers> customer = customerRepository.findById(id);
-//        if (customer.isEmpty()) throw new CustomerIdNotFoundException("Customer Details Not Found Exception");
-//        else {
-//            Customers tempCustomer = customer.get();
-//            amount = calculateCurrency(currencyCode, amount);
-//            amount += taxCalculator(amount);
-//            float balance = tempCustomer.getClearBalance() - amount;
-//            tempCustomer.setClearBalance(balance);
-//            customerRepository.save(tempCustomer);
-//            status.setMessage("Success");
-//            return status;
-//        }
-//
-//    }
-
     public List<Customers> findAllCustomers(){
 
         return customerRepository.findAll();
     }
+
+    public float updateCurrencyCodeValue(Customers customer, String currencyCode, float amount) throws CurrencyCodeNotFoundException {
+
+        float balance = customer.getClearBalance();
+        Currency currency = currencyService.getCurrencyDetails(currencyCode);
+        balance *= currency.getConversionRate();
+
+        customer.setClearBalance(balance);
+        customerRepository.save(customer);
+
+        return customer.getClearBalance();
+
+    }
+
+    public Status updateBalance(String customerId, float clearBalance) {
+
+        Customers customer = customerRepository.findById(customerId).get();
+        customer.setClearBalance(clearBalance);
+        customerRepository.save(customer);
+        status.setMessage("Successfully Updated");
+        return status;
+
+    }
+
+    public Status insertNewCustomer(Customers newCustomer) {
+
+        try {
+
+            if (!customerRepository.findById(newCustomer.getCustomerId()).isPresent()) {
+
+                customerRepository.save(newCustomer);
+                status.setMessage("Inserted Successfully");
+                return status;
+            }
+
+
+        } catch (Exception e) {
+
+            System.out.println("");
+        }
+
+        status.setMessage("Unsuccessful");
+        return status;
+    }
+
+//    private float taxCalculator(float amount) {
+//
+//        return (float) ((0.25/100) * amount);
+//
+//    }
+
+//    private float calculateCurrency(String currencyCode, float amount) throws CurrencyCodeNotFoundException {
+//
+//        float conversionRate = currencyService.getCurrencyDetails(currencyCode).getConversionRate();
+//
+//        return amount * conversionRate;
+//
+//    }
+
 
 //    public float updateBalance(String customerId, float amount) {
 //
@@ -70,38 +112,21 @@ public class CustomerService {
 //        return customer.getClearBalance();
 //    }
 
-    public float updateCurrencyCodeValue(Customers customer, String currencyCode, float amount) throws CurrencyCodeNotFoundException {
-
-        float balance = customer.getClearBalance();
-        Currency currency = currencyService.getCurrencyDetails(currencyCode);
-        balance *= currency.getConversionRate();
-
-        customer.setClearBalance(balance);
-        customerRepository.save(customer);
-
-        return customer.getClearBalance();
-
-    }
-
-    public void updateBalance(String customerId, float clearBalance) {
-
-        Customers customer = customerRepository.findById(customerId).get();
-        customer.setClearBalance(clearBalance);
-        customerRepository.save(customer);
-
-    }
-
-//    private float taxCalculator(float amount) {
+    //    public Status updateBalance(String id, float amount, String currencyCode) throws CurrencyCodeNotFoundException, CustomerIdNotFoundException {
 //
-//        return (float) ((0.25/100) * amount);
+//        Optional<Customers> customer = customerRepository.findById(id);
+//        if (customer.isEmpty()) throw new CustomerIdNotFoundException("Customer Details Not Found Exception");
+//        else {
+//            Customers tempCustomer = customer.get();
+//            amount = calculateCurrency(currencyCode, amount);
+//            amount += taxCalculator(amount);
+//            float balance = tempCustomer.getClearBalance() - amount;
+//            tempCustomer.setClearBalance(balance);
+//            customerRepository.save(tempCustomer);
+//            status.setMessage("Success");
+//            return status;
+//        }
 //
 //    }
 
-//    private float calculateCurrency(String currencyCode, float amount) throws CurrencyCodeNotFoundException {
-//
-//        float conversionRate = currencyService.getCurrencyDetails(currencyCode).getConversionRate();
-//
-//        return amount * conversionRate;
-//
-//    }
 }

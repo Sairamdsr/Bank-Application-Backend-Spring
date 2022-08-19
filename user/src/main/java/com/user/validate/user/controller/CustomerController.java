@@ -19,8 +19,10 @@ public class CustomerController {
     @Autowired
     CustomerService customerService;
 
+    private Status status = new Status();
+
     @CrossOrigin("http://localhost:4200/")
-    @GetMapping("/customerDetails/{customerId}")
+    @GetMapping("/customer/customerDetails/{customerId}")
     public ResponseEntity<Customers> getCustomerDetails(@PathVariable("customerId") String customerId) throws CustomerIdNotFoundException {
 
         Customers customer = customerService.fetchCustomerDetails(customerId);
@@ -37,7 +39,7 @@ public class CustomerController {
 //    }
 
     @CrossOrigin("http://localhost:4200/")
-    @GetMapping("/allCustomerDetails")
+    @GetMapping("/customer/allCustomerDetails")
     public ResponseEntity<List<Customers>> getAllCustomerData(){
 
         List<Customers> customers = customerService.findAllCustomers();
@@ -45,4 +47,23 @@ public class CustomerController {
 //        return customerService.fetchCustomerDetails(customerId);
 
     }
+
+    @CrossOrigin("http://localhost:4200/")
+    @PostMapping("/customer/addNewCustomer")
+    public ResponseEntity<Status> addNewCustomer(@RequestBody Customers newCustomer) {
+
+        status = customerService.insertNewCustomer(newCustomer);
+        return new ResponseEntity<>(status, HttpStatus.CREATED);
+
+    }
+
+    @CrossOrigin("http://localhost:4200")
+    @PutMapping("/customer/updateBalance/{customerId}/{amount}")
+    public ResponseEntity<Status> updateCustomerBalance(@PathVariable("customerId") String customerId, @PathVariable("amount") float amount) {
+
+        status = customerService.updateBalance(customerId, amount);
+        return new ResponseEntity<>(status, HttpStatus.CREATED);
+
+    }
+
 }

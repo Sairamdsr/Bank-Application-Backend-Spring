@@ -29,6 +29,7 @@ public class TransactionController {
 
     }
 
+    @CrossOrigin({"http://localhost:4200/", "http://localhost:4200/"})
     @PostMapping("/addTransactionDetails")
     public ResponseEntity<Integer> setTransactionDetails(@RequestBody Transaction transaction) throws Exception {
 

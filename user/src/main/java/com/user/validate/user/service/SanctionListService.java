@@ -18,33 +18,33 @@ public class SanctionListService {
 
      public Status fetchUserInSanctionList(String name) throws IOException {
 
-         String[] words;
-         String inputFileName = "C:\\Users\\Administrator\\Desktop\\Git Commands.txt";
+//         String[] words;
+         String inputFileName = "src/main/resources/sdnlist.txt";
          FileReader fr = new FileReader(inputFileName);  //Creation of File Reader object
          BufferedReader br = new BufferedReader(fr); //Creation of BufferedReader object
          String s;
 
+         status.setMessage("Not Found");
          while((s = br.readLine()) != null)   //Reading Content from the file
          {
-             words = s.split(" ");  //Split the word using space
-             for (String word : words)
-             {
-                 if (word.equals(name)) {
-                     matchFound = true;
-                     fr.close();
-                     break;
-                 }
+
+             if (s.contains(name)) {
+
+                 status.setMessage("Found");
+                 fr.close();;
+                 return status;
              }
-         }
-         if (matchFound) {
-             status.setMessage("Found");
-             return status;
-         }
-         else {
-             status.setMessage("Not Found");
-             return status;
+//             words = s.split(" ");  //Split the word using space
+//             for (String word : words) {
+//                 if (word.equals(name)) {
+//                     status.setMessage("Found");
+//                     fr.close();
+//                     return status;
+//                 }
+//             }
          }
 
+         return status;
      }
 
 }
